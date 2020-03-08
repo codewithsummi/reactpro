@@ -3,9 +3,24 @@ const app=express();
 //cors  and parse data
 const cors=require('cors');
 const bodyParser=require('body-parser');
+const fs=require('fs');
 const sha1=require('sha1');
 app.use(cors())
 app.use(bodyParser.json());
+//for attachment
+let multer=require('multer');
+let DIR="./attach";
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null,DIR)
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now()+ '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+  })
+  
+  let upload = multer({ storage: storage }).single('attach');
+//end
 //app.use(bodyParser.urlencoded({ extended: false }));
 //end cors and parse data 
 //connection with mongodb 
@@ -90,6 +105,39 @@ app.post('/api/changepassword',(req,res)=>
     {
         res.json({'err':1,'msg':'Op and cp is not match'});
     }
+})
+app.post('/api/addcategory',(req,res)=>
+{
+    upload(req,res,(err)=>
+    {
+        if(err){
+            res.json({'err':1,'msg':'Uploading Error'})
+        }
+        else
+        {
+           let cname=req.body.cname;
+           let fname=req.file.filename;
+           let ins=new catModel({'cname':cname,'image':fname});
+           ins.save(err=>
+            {
+                if(err){
+                  fs.unlink('./attach/'+fname,(err)=>
+                  {
+                      if(err){}
+                      else 
+                      {
+                        res.json({'err':1,'msg':'Category Exits'})
+                      }
+                  })
+                }
+                else 
+                {
+                    res.json({'err':0,'msg':'Category Saved'})
+                }
+            })
+
+        }
+    })
 })
 app.listen(8899,()=>
 {
