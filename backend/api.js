@@ -7,6 +7,7 @@ const fs=require('fs');
 const sha1=require('sha1');
 app.use(cors())
 app.use(bodyParser.json());
+app.use('/api',express.static('attach'))
 //for attachment
 let multer=require('multer');
 let DIR="./attach";
@@ -136,6 +137,59 @@ app.post('/api/addcategory',(req,res)=>
                 }
             })
 
+        }
+    })
+})
+app.get('/api/getcategory/:id?',(req,res)=>
+{
+    let cid=req.params.id;
+    if(cid)
+    {
+        catModel.findOne({_id:cid},(err,data)=>
+    {
+        if(err){}
+        else 
+        {
+            res.json({'err':0,'cdata':data});
+        }
+    })
+    }
+    else 
+    {
+    catModel.find({},(err,data)=>
+    {
+        if(err){}
+        else 
+        {
+            res.json({'err':0,'cdata':data});
+        }
+    })
+   }
+})
+app.get('/api/delcat/:id',(req,res)=>
+{
+    let id=req.params.id;
+    catModel.deleteOne({_id:id},(err)=>
+    {
+        if(err){}
+        else 
+        {
+            res.json({'err':0,'msg':'Category Deleted'})
+        }
+    })
+})
+app.post('/api/upcategory',(req,res)=>
+{})
+app.post('/api/upcategorywithoutimage',(req,res)=>
+{
+    let cname=req.body.cname;
+    let cid=req.body.cid;
+    catModel.updateOne({_id:cid},{$set:{cname:cname}},(err)=>
+    {
+        if(err){}
+        else 
+        {
+            res.json({'err':0,'msg':'Category Updated'})
         }
     })
 })

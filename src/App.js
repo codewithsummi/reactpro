@@ -14,7 +14,7 @@ function App() {
           <Route path='/dashboard' exact component={Dashboard}/>
           <Route path='/changepass' exact component={Changepass}/>
           <Route path='/category' exact component={Category}/>
-          <Route path='/addcategory' exact component={Addcategory}/>
+          <Route path='/addcategory/:id?' exact component={Addcategory}/>
         </Switch>
       </Router>
     </div>
