@@ -193,6 +193,18 @@ app.post('/api/upcategorywithoutimage',(req,res)=>
         }
     })
 })
+app.get('/api/fetchproductbycname/:cn',(req,res)=>
+{
+    let cname=req.params.cn;
+    proModel.find({cname:cname},(err,data)=>
+    {
+        if(err){}
+        else 
+        {
+            res.json({'err':0,'pdata':data});
+        }
+    })
+})
 app.listen(8899,()=>
 {
     console.log("Work on 8899");
