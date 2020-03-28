@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {URL} from './url';
+import Sidebar from './Sidebar';
 export class CategoryProducts extends Component {
     state={cname:this.props.match.params.cname}
     componentDidMount()
@@ -14,7 +15,16 @@ export class CategoryProducts extends Component {
     render() {
         return (
             <div>
+<section>
+		<div className="container">
+			<div className="row">
+                <Sidebar/>
+            <div class="col-sm-9 padding-right">
                 <h1>Category Products</h1>
+            </div>
+            </div>
+        </div>
+        </section>
             </div>
         )
     }

@@ -1,0 +1,2 @@
+May work
+componentWillReceiveProps(nextProps) { if (nextProps.query !== this.props.query) { this.setState({ query: nextProps.query }); return this.searchRepositories(nextProps.query); } }
