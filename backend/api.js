@@ -32,6 +32,21 @@ mongoose.connect('mongodb://localhost/eshopping', {useNewUrlParser: true, useUni
 });
 let adminModel=require('./db/adminlogin');
 let catModel=require('./db/category');
+//nodemailer 
+let nodemailer = require('nodemailer');
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'sumitjoshi.cetpa@gmail.com',
+    pass: 'mypassword'
+  },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+//end 
 app.post('/api/adminlogin',(req,res)=>
 {
     let email=req.body.email;
@@ -205,7 +220,42 @@ app.get('/api/fetchproductbycname/:cn',(req,res)=>
         }
     })
 })
+app.post('/api/contact',(req,res)=>
+{
+    let name=req.body.name;
+    let email=req.body.email;
+    let subject=req.body.subject;
+    let message=req.body.message;
+    var mailOptions = {
+  from: 'sumit@gmail.com',
+  to: 'joshisummi@gmail.com',
+  subject: 'Feedback from my website',
+  text: `Name : ${name} \n Email :${email} \n Subject : ${subject} \n Message : ${message}`
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+      console.log(error)
+    res.json({'err':1,'msg':'Feedback Not send'})
+  } else {
+    console.log('Email sent: ' + info.response);
+    res.json({'err':0,'msg':'Feedback send successfully'});
+  }
+});
+})
 app.listen(8899,()=>
 {
     console.log("Work on 8899");
 })
+
+
+
+
+
+
+
+
+
+
+
+
