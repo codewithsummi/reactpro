@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Header from './components/Header';
 import Main from './components/Main';
@@ -8,11 +8,12 @@ import CategoryProducts from './components/CategoryProducts';
 import Login from './components/Login';
 import Contact from './components/Contact';
 
-function App() {
+export class App extends Component {
+  render() {
   return (
     <Router>
     <div>
-         <Header/>
+         <Header {...this.props}/>
          <section>
             <Switch>
               <Route path="/" exact component={Main}/>
@@ -26,6 +27,7 @@ function App() {
     </div>
     </Router>
     );
+}
 }
 
 export default App;

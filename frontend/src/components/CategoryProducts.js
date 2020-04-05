@@ -2,15 +2,17 @@ import React, { Component } from 'react'
 import {URL} from './url';
 import Sidebar from './Sidebar';
 export class CategoryProducts extends Component {
-    state={cname:this.props.match.params.cname}
+    
     componentDidMount()
     {
-        fetch(`${URL}fetchproductbycname/${this.state.cname}`)
-        .then(res=>res.json())
-        .then(data=>
-            {
-                console.log(data);
-            })
+        const { match: { params } } = this.props;
+        console.log(params.cname)
+        // fetch(`${URL}fetchproductbycname/${this.state.cname}`)
+        // .then(res=>res.json())
+        // .then(data=>
+        //     {
+        //         console.log(data);
+        //     })
     }
     render() {
         return (

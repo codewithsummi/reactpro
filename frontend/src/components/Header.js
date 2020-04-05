@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import {URL} from './url';
 import { Link } from 'react-router-dom';
+import {fetchCategory} from '../services/Myser';
 export class Header extends Component {
 	state={cdata:[]}
+	mycat=(cn)=>
+	{
+		//alert(this.props)
+		//console.log(this.props);
+		this.props.history.push("/login");
+	}
 	componentDidMount()
 	{
-	   fetch(`${URL}getcategory`)
+		fetchCategory()
 	   .then(res=>res.json())
 	   .then(data=>{
 		   if(data.err==0)
@@ -108,11 +115,12 @@ export class Header extends Component {
 								<li className="dropdown"><a href="#">Category<i className="fa fa-angle-down"></i></a>
                                     <ul role="menu" className="sub-menu">
 										{this.state.cdata.map(data=>
-											<li><Link to={`/category-products/${data.cname}`}>{data.cname}</Link></li>
+											<li onClick={()=>this.mycat(data.cname)}>
+												{data.cname}
+							
+											</li>
 											)}
-                                        
-										
-                                    </ul>
+                                        </ul>
                                 </li> 
 								<li className="dropdown"><a href="#">Blog<i className="fa fa-angle-down"></i></a>
                                     <ul role="menu" className="sub-menu">
